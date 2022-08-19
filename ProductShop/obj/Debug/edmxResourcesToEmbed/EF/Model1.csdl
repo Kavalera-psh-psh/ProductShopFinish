@@ -1,0 +1,316 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ProductShopModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="ProductShopEntities" annotation:LazyLoadingEnabled="true">
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(ProductShopModel.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(ProductShopModel.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
+    <FunctionImport Name="GetSumm">
+      <Parameter Name="id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="Customers" EntityType="ProductShopModel.Customer" />
+    <EntitySet Name="Employees" EntityType="ProductShopModel.Employee" />
+    <EntitySet Name="Orders" EntityType="ProductShopModel.Order" />
+    <EntitySet Name="OrdItems" EntityType="ProductShopModel.OrdItem" />
+    <EntitySet Name="Positions" EntityType="ProductShopModel.Position" />
+    <EntitySet Name="Products" EntityType="ProductShopModel.Product" />
+    <EntitySet Name="Shipments" EntityType="ProductShopModel.Shipment" />
+    <EntitySet Name="Suppliers" EntityType="ProductShopModel.Supplier" />
+    <EntitySet Name="sysdiagrams" EntityType="ProductShopModel.sysdiagram" />
+    <EntitySet Name="Authorizations" EntityType="ProductShopModel.Authorization" />
+    <EntitySet Name="CostOrders" EntityType="ProductShopModel.CostOrder" />
+    <AssociationSet Name="FK_Order_Customer" Association="ProductShopModel.FK_Order_Customer">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="Order" EntitySet="Orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Authorization_Employee" Association="ProductShopModel.FK_Authorization_Employee">
+      <End Role="Employee" EntitySet="Employees" />
+      <End Role="Authorization" EntitySet="Authorizations" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Employee_Position" Association="ProductShopModel.FK_Employee_Position">
+      <End Role="Position" EntitySet="Positions" />
+      <End Role="Employee" EntitySet="Employees" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Order_Employee" Association="ProductShopModel.FK_Order_Employee">
+      <End Role="Employee" EntitySet="Employees" />
+      <End Role="Order" EntitySet="Orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrdItem_Order" Association="ProductShopModel.FK_OrdItem_Order">
+      <End Role="Order" EntitySet="Orders" />
+      <End Role="OrdItem" EntitySet="OrdItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrdItem_Product" Association="ProductShopModel.FK_OrdItem_Product">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="OrdItem" EntitySet="OrdItems" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Shipment_Product1" Association="ProductShopModel.FK_Shipment_Product1">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="Shipment" EntitySet="Shipments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Shipment_Supplier1" Association="ProductShopModel.FK_Shipment_Supplier1">
+      <End Role="Supplier" EntitySet="Suppliers" />
+      <End Role="Shipment" EntitySet="Shipments" />
+    </AssociationSet>
+  </EntityContainer>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
+  <EntityType Name="Customer">
+    <Key>
+      <PropertyRef Name="IdCust" />
+    </Key>
+    <Property Name="IdCust" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Phone" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Orders" Relationship="ProductShopModel.FK_Order_Customer" FromRole="Customer" ToRole="Order" />
+  </EntityType>
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="IdEmployee" />
+    </Key>
+    <Property Name="IdEmployee" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="IdPosition" Type="Int32" Nullable="false" />
+    <Property Name="Phone" Type="String" Nullable="false" MaxLength="16" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="Authorizations" Relationship="ProductShopModel.FK_Authorization_Employee" FromRole="Employee" ToRole="Authorization" />
+    <NavigationProperty Name="Position" Relationship="ProductShopModel.FK_Employee_Position" FromRole="Employee" ToRole="Position" />
+    <NavigationProperty Name="Orders" Relationship="ProductShopModel.FK_Order_Employee" FromRole="Employee" ToRole="Order" />
+  </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="IdOrder" />
+    </Key>
+    <Property Name="IdOrder" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IdEmployee" Type="Int32" Nullable="false" />
+    <Property Name="IdCust" Type="Int32" Nullable="false" />
+    <Property Name="OrdDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="DeliveryAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Customer" Relationship="ProductShopModel.FK_Order_Customer" FromRole="Order" ToRole="Customer" />
+    <NavigationProperty Name="Employee" Relationship="ProductShopModel.FK_Order_Employee" FromRole="Order" ToRole="Employee" />
+    <NavigationProperty Name="OrdItems" Relationship="ProductShopModel.FK_OrdItem_Order" FromRole="Order" ToRole="OrdItem" />
+  </EntityType>
+  <EntityType Name="OrdItem">
+    <Key>
+      <PropertyRef Name="IdOrder" />
+      <PropertyRef Name="IdProd" />
+    </Key>
+    <Property Name="IdOrder" Type="Int32" Nullable="false" />
+    <Property Name="IdProd" Type="Int32" Nullable="false" />
+    <Property Name="Qty" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Order" Relationship="ProductShopModel.FK_OrdItem_Order" FromRole="OrdItem" ToRole="Order" />
+    <NavigationProperty Name="Product" Relationship="ProductShopModel.FK_OrdItem_Product" FromRole="OrdItem" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="Position">
+    <Key>
+      <PropertyRef Name="IdPosition" />
+    </Key>
+    <Property Name="IdPosition" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Salary" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+    <NavigationProperty Name="Employees" Relationship="ProductShopModel.FK_Employee_Position" FromRole="Position" ToRole="Employee" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="IdProd" />
+    </Key>
+    <Property Name="IdProd" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NameProd" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="InStock" Type="Int32" Nullable="false" />
+    <Property Name="Price" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+    <NavigationProperty Name="OrdItems" Relationship="ProductShopModel.FK_OrdItem_Product" FromRole="Product" ToRole="OrdItem" />
+    <NavigationProperty Name="Shipments" Relationship="ProductShopModel.FK_Shipment_Product1" FromRole="Product" ToRole="Shipment" />
+  </EntityType>
+  <EntityType Name="Shipment">
+    <Key>
+      <PropertyRef Name="IdShipment" />
+    </Key>
+    <Property Name="IdShipment" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IdProd" Type="Int32" Nullable="false" />
+    <Property Name="IdSupplier" Type="Int32" Nullable="false" />
+    <Property Name="DateShipment" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Product" Relationship="ProductShopModel.FK_Shipment_Product1" FromRole="Shipment" ToRole="Product" />
+    <NavigationProperty Name="Supplier" Relationship="ProductShopModel.FK_Shipment_Supplier1" FromRole="Shipment" ToRole="Supplier" />
+  </EntityType>
+  <EntityType Name="Supplier">
+    <Key>
+      <PropertyRef Name="IdSupplier" />
+    </Key>
+    <Property Name="IdSupplier" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NameSupplier" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Phone" Type="String" Nullable="false" MaxLength="16" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Shipments" Relationship="ProductShopModel.FK_Shipment_Supplier1" FromRole="Supplier" ToRole="Shipment" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Authorization">
+    <Key>
+      <PropertyRef Name="IdEmployee" />
+      <PropertyRef Name="Login" />
+      <PropertyRef Name="Password" />
+    </Key>
+    <Property Name="IdEmployee" Type="Int32" Nullable="false" />
+    <Property Name="Login" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Employee" Relationship="ProductShopModel.FK_Authorization_Employee" FromRole="Authorization" ToRole="Employee" />
+  </EntityType>
+  <EntityType Name="CostOrder">
+    <Key>
+      <PropertyRef Name="IdOrder" />
+      <PropertyRef Name="NameProd" />
+      <PropertyRef Name="Qty" />
+    </Key>
+    <Property Name="IdOrder" Type="Int32" Nullable="false" />
+    <Property Name="NameProd" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="Qty" Type="Int32" Nullable="false" />
+    <Property Name="Price" Type="Decimal" Precision="21" Scale="2" />
+  </EntityType>
+  <Association Name="FK_Order_Customer">
+    <End Type="ProductShopModel.Customer" Role="Customer" Multiplicity="1" />
+    <End Type="ProductShopModel.Order" Role="Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="IdCust" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="IdCust" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Authorization_Employee">
+    <End Type="ProductShopModel.Employee" Role="Employee" Multiplicity="1" />
+    <End Type="ProductShopModel.Authorization" Role="Authorization" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="IdEmployee" />
+      </Principal>
+      <Dependent Role="Authorization">
+        <PropertyRef Name="IdEmployee" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Employee_Position">
+    <End Type="ProductShopModel.Position" Role="Position" Multiplicity="1" />
+    <End Type="ProductShopModel.Employee" Role="Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Position">
+        <PropertyRef Name="IdPosition" />
+      </Principal>
+      <Dependent Role="Employee">
+        <PropertyRef Name="IdPosition" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Order_Employee">
+    <End Type="ProductShopModel.Employee" Role="Employee" Multiplicity="1" />
+    <End Type="ProductShopModel.Order" Role="Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="IdEmployee" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="IdEmployee" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrdItem_Order">
+    <End Type="ProductShopModel.Order" Role="Order" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="ProductShopModel.OrdItem" Role="OrdItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="IdOrder" />
+      </Principal>
+      <Dependent Role="OrdItem">
+        <PropertyRef Name="IdOrder" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrdItem_Product">
+    <End Type="ProductShopModel.Product" Role="Product" Multiplicity="1" />
+    <End Type="ProductShopModel.OrdItem" Role="OrdItem" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="IdProd" />
+      </Principal>
+      <Dependent Role="OrdItem">
+        <PropertyRef Name="IdProd" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Shipment_Product1">
+    <End Type="ProductShopModel.Product" Role="Product" Multiplicity="1" />
+    <End Type="ProductShopModel.Shipment" Role="Shipment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="IdProd" />
+      </Principal>
+      <Dependent Role="Shipment">
+        <PropertyRef Name="IdProd" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Shipment_Supplier1">
+    <End Type="ProductShopModel.Supplier" Role="Supplier" Multiplicity="1" />
+    <End Type="ProductShopModel.Shipment" Role="Shipment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Supplier">
+        <PropertyRef Name="IdSupplier" />
+      </Principal>
+      <Dependent Role="Shipment">
+        <PropertyRef Name="IdSupplier" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
